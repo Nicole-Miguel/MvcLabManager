@@ -29,15 +29,17 @@ public class ComputerController : Controller
         return View(computer);
     }
 
-    public IActionResult Create ([FromForm] int id, [FromForm] string ram, [FromForm] string processor)
+    public IActionResult Create (Computer computer)
     {
-        if(id !=0) 
+        if(!ModelState.IsValid) 
         {
-             _context.Computers.Add(new Computer (id, ram, processor));
-            _context.SaveChanges();
+             return View(computer);
         }
-       
-        return View();
+
+        _context.Computers.Add(computer);
+        _context.SaveChanges();   
+
+        return RedirectToAction("Index");
     }
 
     public IActionResult Update (int id)
